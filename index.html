@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simulador BMV</title>
+  <meta name="description" content="Simulador de la Bolsa Mexicana de Valores: carga de las empresas participantes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/inicio.css">
+</head>
+<body>
+  <main class="escena escena--paneles">
+    <div class="escena__fondo" aria-hidden="true"></div>
+    <div class="escena__velo" aria-hidden="true"></div>
+
+    <header class="barra">
+      <a class="marca" href="index.html">
+        <img class="marca__logo" src="assets/logo.png" alt="Simulador BMV" id="logo-img">
+        <span class="marca__nombre" id="logo-texto" hidden>Simulador BMV</span>
+      </a>
+      <span class="chip">Empresas</span>
+    </header>
+
+    <div class="paneles">
+      <section class="tarjeta tarjeta--carga" aria-labelledby="titulo-carga">
+        <div class="tarjeta__cabecera">
+          <div>
+            <span class="etiqueta">Nueva partida</span>
+            <h1 class="tarjeta__titulo" id="titulo-carga"><em>Cargar empresas</em></h1>
+          </div>
+        </div>
+
+        <div class="tarjeta__cuerpo" id="carga-cuerpo">
+          <label class="soltar" id="soltar" for="archivos">
+            <input class="soltar__input" id="archivos" type="file" accept=".json,application/json" multiple>
+            <svg class="soltar__icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0L8 8m4-4l4 4M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg>
+            <span class="soltar__titulo">Suelta aquí los archivos JSON</span>
+            <span class="soltar__texto">o <u>elígelos</u> desde tu equipo · varios a la vez</span>
+            <span class="soltar__compacto">Cargar más archivos</span>
+          </label>
+
+          <div class="cola" id="cola" hidden>
+            <div class="cola__nav">
+              <button class="icono-boton" type="button" id="cola-ant" aria-label="Archivo anterior">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+              </button>
+              <p class="cola__pos"><span class="etiqueta" id="cola-pos">Archivo 1 de 1</span><span class="cola__archivo" id="cola-archivo"></span></p>
+              <button class="icono-boton" type="button" id="cola-sig" aria-label="Archivo siguiente">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+              </button>
+            </div>
+            <div class="vista" id="vista" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <div class="tarjeta__pie tarjeta__pie--carga" id="carga-pie" hidden>
+          <button class="boton boton--fantasma" type="button" id="btn-descartar">Descartar</button>
+          <button class="boton boton--primario" type="button" id="btn-agregar">Agregar al simulador</button>
+          <button class="enlace-boton" type="button" id="btn-todas" hidden>Agregar todas las válidas</button>
+        </div>
+      </section>
+
+      <section class="tarjeta tarjeta--lista" aria-labelledby="titulo-lista">
+        <div class="tarjeta__cabecera">
+          <div>
+            <span class="etiqueta">En la partida</span>
+            <h2 class="tarjeta__titulo" id="titulo-lista"><em>Empresas cargadas</em></h2>
+          </div>
+          <span class="contador" id="contador" aria-label="Empresas cargadas">0</span>
+        </div>
+
+        <dl class="indicadores" id="indicadores">
+          <div class="indicador"><dt class="etiqueta">Total</dt><dd id="ind-total">0 / 40</dd></div>
+          <div class="indicador"><dt class="etiqueta">Capitales·Deuda</dt><dd id="ind-mercado">0 · 0</dd></div>
+          <div class="indicador"><dt class="etiqueta">MXN·USD</dt><dd id="ind-divisa">0 · 0</dd></div>
+        </dl>
+
+        <div class="tarjeta__cuerpo tarjeta__cuerpo--lista">
+          <ol class="empresas" id="empresas" aria-live="polite"></ol>
+          <p class="vacio" id="vacio">Aún no hay empresas en la partida. Carga los archivos que exportó cada equipo desde Simulador de cálculos.</p>
+        </div>
+
+        <div class="tarjeta__pie">
+          <button class="boton boton--fantasma" type="button" id="btn-vaciar" disabled>Vaciar lista</button>
+          <a class="boton boton--primario" href="configurar.html" id="btn-configurar" aria-disabled="true">Configurar partida</a>
+        </div>
+      </section>
+    </div>
+
+    <div class="aviso-flotante" id="aviso" role="status" aria-live="polite" hidden></div>
+  </main>
+
+  <script src="js/formato.js"></script>
+  <script src="js/importar.js"></script>
+  <script src="js/registro.js"></script>
+  <script src="js/inicio.js"></script>
+</body>
+</html>

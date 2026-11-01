@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pantalla pública · Simulador BMV</title>
+  <meta name="description" content="Cotizaciones, empresa en turno, noticias y ranking de la partida para el proyector.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/publico.css">
+</head>
+<body class="cuerpo-publico">
+  <header class="pb-barra">
+    <div class="pb-marca">
+      <img class="pb-logo" src="assets/logo.png" alt="Simulador BMV" id="logo-img">
+      <span class="pb-logo-texto" id="logo-texto" hidden>Simulador BMV</span>
+    </div>
+    <div class="pb-ronda"><span class="etiqueta" id="pb-fase">—</span><strong id="pb-periodo">—</strong></div>
+    <dl class="pb-indicadores">
+      <div><dt class="etiqueta">Inflación anual</dt><dd id="pb-inflacion">—</dd></div>
+      <div><dt class="etiqueta">TIIE 28 días</dt><dd id="pb-tiie">—</dd></div>
+      <div><dt class="etiqueta">Dólar</dt><dd id="pb-tc">—</dd></div>
+    </dl>
+  </header>
+
+  <div class="escena__fondo" aria-hidden="true"></div>
+  <div class="escena__velo" aria-hidden="true"></div>
+
+  <main class="pb" id="pb">
+    <section class="pb-panel pb-cotizaciones">
+      <h2 class="etiqueta pb-panel__titulo">Cotizaciones</h2>
+      <div class="pb-cotizaciones__ventana" id="ventana">
+        <table class="pb-tabla"><tbody id="cotizaciones"></tbody></table>
+      </div>
+    </section>
+    <section class="pb-centro">
+      <div class="pb-panel pb-turno" id="turno"></div>
+      <div class="pb-panel pb-noticias">
+        <div class="pb-panel__cabeza">
+          <h2 class="etiqueta pb-panel__titulo" id="titulo-noticias">Noticias</h2>
+          <div class="pb-filtros" id="filtros" role="group" aria-label="Filtrar noticias">
+            <button class="pb-filtro" type="button" data-filtro="todas" aria-pressed="true">Todas</button>
+            <button class="pb-filtro" type="button" data-filtro="riesgos" aria-pressed="false">Riesgos</button>
+            <button class="pb-filtro" type="button" data-filtro="cierre" aria-pressed="false">Cierre</button>
+            <button class="pb-filtro" type="button" data-filtro="bonos" aria-pressed="false">Bonos</button>
+            <button class="pb-filtro" type="button" data-filtro="colocacion" aria-pressed="false">Colocación</button>
+            <button class="pb-filtro" type="button" data-filtro="dividendos" aria-pressed="false">Dividendos</button>
+            <button class="pb-filtro" type="button" data-filtro="impago" aria-pressed="false">Impago</button>
+            <button class="pb-filtro" type="button" data-filtro="quiebra" aria-pressed="false">Quiebra</button>
+          </div>
+        </div>
+        <ol class="pb-noticias__lista" id="noticias" tabindex="0" aria-labelledby="titulo-noticias"></ol>
+      </div>
+    </section>
+    <section class="pb-lado">
+      <div class="pb-panel pb-empresa" id="empresa" aria-live="polite"></div>
+      <div class="pb-panel pb-ranking">
+        <h2 class="etiqueta pb-panel__titulo" id="ranking-titulo">Ranking</h2>
+        <ol class="pb-ranking__lista" id="ranking" tabindex="0" aria-labelledby="ranking-titulo"></ol>
+      </div>
+    </section>
+  </main>
+
+  <main class="pb-espera" id="espera" hidden>
+    <p class="pb-espera__titulo">Simulador <em>BMV</em></p>
+    <p class="pb-espera__texto">La partida comenzará en breve.</p>
+  </main>
+
+  <script src="js/formato.js"></script>
+  <script src="js/entorno-datos.js"></script>
+  <script src="js/entorno.js"></script>
+  <script src="js/mercado.js"></script>
+  <script src="js/riesgos.js"></script>
+  <script src="js/motor.js"></script>
+  <script src="js/juego.js"></script>
+  <script src="js/publico.js"></script>
+</body>
+</html>

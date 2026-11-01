@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tablero · Simulador BMV</title>
+  <meta name="description" content="Tablero del operador: colocación, turnos y operaciones de la partida.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/inicio.css">
+  <link rel="stylesheet" href="css/tablero.css">
+</head>
+<body class="cuerpo-tablero">
+  <a class="saltar" href="#centro">Saltar al turno</a>
+  <header class="tb-barra">
+    <a class="marca" href="index.html" title="Empresas">
+      <img class="marca__logo" src="assets/logo.png" alt="Simulador BMV" id="logo-img">
+      <span class="marca__nombre" id="logo-texto" hidden>Simulador BMV</span>
+    </a>
+    <div class="tb-barra__ronda">
+      <span class="etiqueta" id="tb-fase">Ronda</span>
+      <strong id="tb-ronda">—</strong>
+    </div>
+    <dl class="tb-indicadores">
+      <div><dt class="etiqueta">Inflación anual</dt><dd id="tb-inflacion">—</dd></div>
+      <div><dt class="etiqueta">TIIE</dt><dd id="tb-tiie">—</dd></div>
+      <div><dt class="etiqueta">TC MXN/USD</dt><dd id="tb-tc">—</dd></div>
+    </dl>
+    <div class="tb-barra__acciones">
+      <button class="boton boton--fantasma boton--chico" type="button" id="btn-riesgos">Riesgos</button>
+      <button class="boton boton--fantasma boton--chico" type="button" id="btn-publica">Pantalla pública</button>
+      <button class="boton boton--fantasma boton--chico" type="button" id="btn-partida">Partida<span class="tb-punto" id="tb-carteras" hidden></span></button>
+      <button class="boton boton--primario boton--chico" type="button" id="btn-cerrar">Cerrar periodo</button>
+    </div>
+  </header>
+
+  <main class="tb">
+    <section class="tb-panel tb-turnos" aria-labelledby="titulo-turnos">
+      <div class="tb-panel__cabeza">
+        <h2 class="etiqueta" id="titulo-turnos">Orden de turnos</h2>
+        <span class="tb-avance" id="tb-avance"></span>
+      </div>
+      <div class="tb-buscar">
+        <input class="control control--chico" id="buscar" type="search" placeholder="Buscar empresa" autocomplete="off" aria-label="Buscar empresa">
+      </div>
+      <ol class="tb-orden" id="orden"></ol>
+    </section>
+
+    <section class="tb-panel tb-centro" id="centro" aria-live="polite" tabindex="-1"></section>
+
+    <section class="tb-panel tb-info">
+      <div class="pestanas" role="tablist" aria-label="Información de la partida">
+        <button class="pestana activa" type="button" role="tab" aria-selected="true" data-pestana="cotizaciones">Cotizaciones</button>
+        <button class="pestana" type="button" role="tab" aria-selected="false" data-pestana="empresas">Empresas</button>
+        <button class="pestana" type="button" role="tab" aria-selected="false" data-pestana="bitacora">Bitácora</button>
+      </div>
+      <div class="tb-info__cuerpo" id="info"></div>
+    </section>
+  </main>
+
+  <dialog class="tb-dialogo" id="dlg-riesgos" aria-labelledby="titulo-riesgos">
+    <div class="tb-dialogo__cabeza">
+      <div><span class="etiqueta">Riesgos</span><h2 class="tb-dialogo__titulo" id="titulo-riesgos"><em>Activar un riesgo</em></h2></div>
+      <button class="icono-boton" type="button" data-cerrar aria-label="Cerrar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="tb-dialogo__cuerpo" id="riesgos-cuerpo"></div>
+  </dialog>
+
+  <dialog class="tb-dialogo" id="dlg-partida" aria-labelledby="titulo-partida">
+    <div class="tb-dialogo__cabeza">
+      <div><span class="etiqueta">Partida</span><h2 class="tb-dialogo__titulo" id="titulo-partida"><em>Respaldo y cierre</em></h2></div>
+      <button class="icono-boton" type="button" data-cerrar aria-label="Cerrar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="tb-dialogo__cuerpo" id="partida-cuerpo"></div>
+    <input type="file" id="importar" accept=".json,application/json" hidden>
+  </dialog>
+
+  <dialog class="tb-dialogo tb-codigos" id="dlg-codigos" aria-labelledby="titulo-codigos">
+    <div class="tb-dialogo__cabeza">
+      <div><span class="etiqueta" id="codigos-cuenta">Equipo</span><h2 class="tb-dialogo__titulo" id="titulo-codigos"><em>Código de cartera</em></h2></div>
+      <button class="icono-boton" type="button" data-cerrar aria-label="Cerrar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="tb-dialogo__cuerpo tb-codigos__cuerpo" id="codigos-cuerpo"></div>
+  </dialog>
+
+  <div class="aviso-flotante" id="aviso" role="status" aria-live="polite" hidden></div>
+
+  <script src="js/formato.js"></script>
+  <script src="js/entorno-datos.js"></script>
+  <script src="js/entorno.js"></script>
+  <script src="js/mercado.js"></script>
+  <script src="js/riesgos.js"></script>
+  <script src="js/motor.js"></script>
+  <script src="js/juego.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/publicar.js"></script>
+  <script src="js/tablero.js"></script>
+</body>
+</html>

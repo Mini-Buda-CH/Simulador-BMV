@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Configurar partida · Simulador BMV</title>
+  <meta name="description" content="Parámetros de la partida y entorno económico simulado.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/inicio.css">
+  <link rel="stylesheet" href="css/configurar.css">
+</head>
+<body>
+  <main class="escena escena--config">
+    <div class="escena__fondo" aria-hidden="true"></div>
+    <div class="escena__velo" aria-hidden="true"></div>
+
+    <header class="barra">
+      <a class="marca" href="index.html">
+        <img class="marca__logo" src="assets/logo.png" alt="Simulador BMV" id="logo-img">
+        <span class="marca__nombre" id="logo-texto" hidden>Simulador BMV</span>
+      </a>
+      <span class="chip">Partida</span>
+    </header>
+
+    <div class="config">
+      <form class="tarjeta config__form" id="form-config" novalidate aria-labelledby="titulo-config">
+        <div class="tarjeta__cabecera">
+          <div>
+            <h1 class="tarjeta__titulo" id="titulo-config"><em>Configuración</em></h1>
+          </div>
+          <span class="estado-guardado" id="estado-guardado" aria-live="polite"></span>
+        </div>
+        <div class="tarjeta__cuerpo" id="grupos"></div>
+        <div class="tarjeta__pie">
+          <button class="boton boton--fantasma" type="button" id="btn-restablecer">Restablecer</button>
+          <button class="boton boton--fantasma" type="submit" id="btn-guardar">Guardar</button>
+          <div class="config__iniciar">
+            <button class="boton boton--primario" type="button" id="btn-iniciar">Iniciar partida</button>
+            <button class="enlace-boton" type="button" id="btn-nueva" hidden>Empezar una partida nueva</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="config__lado">
+        <section class="tarjeta config__entorno" aria-labelledby="titulo-entorno">
+          <div class="tarjeta__cabecera">
+            <div>
+              <span class="etiqueta" id="entorno-sub">Entorno simulado</span>
+              <h2 class="tarjeta__titulo" id="titulo-entorno"><em>Entorno económico</em></h2>
+            </div>
+          </div>
+          <dl class="indicadores indicadores--inicio">
+            <div class="indicador"><dt class="etiqueta">Inflación anual</dt><dd id="ini-inflacion">—</dd></div>
+            <div class="indicador"><dt class="etiqueta">TIIE 28 días</dt><dd id="ini-tiie">—</dd></div>
+            <div class="indicador"><dt class="etiqueta">TC MXN/USD</dt><dd id="ini-tc">—</dd></div>
+          </dl>
+          <div class="entorno__cuerpo">
+            <div class="graficas">
+              <figure class="grafica-mini"><figcaption class="etiqueta">Inflación anual</figcaption><div class="grafica-mini__lienzo"><canvas id="g-inflacion" aria-label="Inflación anual real y simulada" role="img"></canvas></div></figure>
+              <figure class="grafica-mini"><figcaption class="etiqueta">TIIE 28 días</figcaption><div class="grafica-mini__lienzo"><canvas id="g-tiie" aria-label="TIIE real y simulada" role="img"></canvas></div></figure>
+              <figure class="grafica-mini"><figcaption class="etiqueta">Tipo de cambio</figcaption><div class="grafica-mini__lienzo"><canvas id="g-tc" aria-label="Tipo de cambio real y simulado" role="img"></canvas></div></figure>
+            </div>
+            <p class="leyenda"><span class="leyenda__real"></span>Real <span class="leyenda__sim"></span>Simulado <span class="leyenda__meta"></span>Meta</p>
+            <h3 class="etiqueta entorno__subtitulo" id="tabla-titulo">Primeras 12 rondas</h3>
+            <div class="tabla-scroll">
+              <table class="tabla">
+                <thead><tr><th>Ronda</th><th>Periodo</th><th>Inflación del periodo</th><th>Inflación anual</th><th>TIIE</th><th>TC</th></tr></thead>
+                <tbody id="tabla-rondas"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="tarjeta config__empresas" aria-labelledby="titulo-empresas">
+          <div class="tarjeta__cabecera">
+            <div>
+              <span class="etiqueta">En la partida</span>
+              <h2 class="tarjeta__titulo" id="titulo-empresas"><em>Empresas</em></h2>
+            </div>
+            <span class="contador" id="contador">0</span>
+          </div>
+          <dl class="indicadores">
+            <div class="indicador"><dt class="etiqueta">Total</dt><dd id="ind-total">0</dd></div>
+            <div class="indicador"><dt class="etiqueta">Capitales · Deuda</dt><dd id="ind-mercado">0 · 0</dd></div>
+            <div class="indicador"><dt class="etiqueta">MXN · USD</dt><dd id="ind-divisa">0 · 0</dd></div>
+          </dl>
+          <div class="tarjeta__cuerpo tarjeta__cuerpo--lista config__lista">
+            <ol class="empresas" id="empresas"></ol>
+          </div>
+          <div class="tarjeta__pie tarjeta__pie--solo">
+            <a class="boton boton--fantasma" href="index.html">Volver a empresas</a>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="aviso-flotante" id="aviso" role="status" aria-live="polite" hidden></div>
+  </main>
+
+  <script src="js/vendor/chart.umd.min.js"></script>
+  <script src="js/formato.js"></script>
+  <script src="js/importar.js"></script>
+  <script src="js/registro.js"></script>
+  <script src="js/entorno-datos.js"></script>
+  <script src="js/entorno.js"></script>
+  <script src="js/parametros.js"></script>
+  <script src="js/partida.js"></script>
+  <script src="js/mercado.js"></script>
+  <script src="js/riesgos.js"></script>
+  <script src="js/motor.js"></script>
+  <script src="js/juego.js"></script>
+  <script src="js/configurar.js"></script>
+</body>
+</html>
